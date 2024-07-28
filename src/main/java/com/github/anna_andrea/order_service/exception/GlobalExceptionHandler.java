@@ -4,6 +4,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -52,9 +53,24 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
-	public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
-		ErrorResponse errorResponse = new ErrorResponse(ExceptionMessages.MethodArgumentTypeMismatchException.getMessage() 
-				+ ex.getName() + " - " + ex.getMessage());
+	public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(
+			MethodArgumentTypeMismatchException ex) {
+		ErrorResponse errorResponse = new ErrorResponse(
+				ExceptionMessages.MethodArgumentTypeMismatchException.getMessage() + ex.getName() + " - "
+						+ ex.getMessage());
+		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+	}
+
+	/**
+	 * InValid request: { "origin":[40.714224,"-73.961452"],
+	 * "destination":[34.052235,"-118.243683"] }
+	 * 
+	 * @param ex
+	 * @return
+	 */
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+		ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 

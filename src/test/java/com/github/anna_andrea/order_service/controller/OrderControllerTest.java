@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -168,6 +169,16 @@ public class OrderControllerTest {
 				.content("{\"origin\": [\"34.0522\", \"-200\"], \"destination\": [\"34.0522\", \"-118.2437\"]}"))
 				.andExpect(status().isBadRequest()).andExpect(
 						result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException));
+
+		// 3. Test @StrictStringDeserializer
+		mockMvc.perform(post("/orders").contentType(MediaType.APPLICATION_JSON).content(
+				"{\"origin\": [40.714224, \"-73.961452\"], \"destination\": [\"34.052235\", \"-118.243683\"]}"))
+				.andExpect(status().isBadRequest()).andExpect(
+						result -> assertTrue(result.getResolvedException() instanceof HttpMessageNotReadableException));
+		mockMvc.perform(post("/orders").contentType(MediaType.APPLICATION_JSON).content(
+				"{\"origin\": [\"40.714224\", \"-73.961452\"], \"destination\": [34.052235, \"-118.243683\"]}"))
+				.andExpect(status().isBadRequest()).andExpect(
+						result -> assertTrue(result.getResolvedException() instanceof HttpMessageNotReadableException));
 	}
 
 	@Test

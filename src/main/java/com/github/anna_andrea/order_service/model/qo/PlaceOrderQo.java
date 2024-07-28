@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.anna_andrea.order_service.validation.StrictStringDeserializer;
 import com.github.anna_andrea.order_service.validation.ValidLatitudeLongitude;
 
 import lombok.AllArgsConstructor;
@@ -25,6 +27,7 @@ public class PlaceOrderQo {
 	 */
     @NotNull(message = "Origin must not be null")
     @Size(min = 2, max = 2, message = "Origin must contain exactly 2 elements")
+    @JsonDeserialize(contentUsing = StrictStringDeserializer.class)
     @ValidLatitudeLongitude
 	private List<String> origin;
 
@@ -33,6 +36,7 @@ public class PlaceOrderQo {
 	 */
     @NotNull(message = "Destination must not be null")
     @Size(min = 2, max = 2, message = "Destination must contain exactly 2 elements")
+    @JsonDeserialize(contentUsing = StrictStringDeserializer.class)
     @ValidLatitudeLongitude
 	private List<String> destination;
 }

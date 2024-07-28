@@ -1,5 +1,9 @@
 package com.github.anna_andrea.order_service.model.enums;
 
+/**
+ * @author Kevin
+ *
+ */
 public enum ExceptionMessages {
 	MethodArgumentNotValidException("Invalid request parameters: "),
 	ConstraintViolationException("Invalid request parameters: "),
