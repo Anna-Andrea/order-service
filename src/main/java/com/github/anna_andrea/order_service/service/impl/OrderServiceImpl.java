@@ -28,31 +28,30 @@ import com.github.anna_andrea.order_service.service.OrderService;
  */
 @Service
 public class OrderServiceImpl implements OrderService {
-	
+
 	@Autowired
 	private OrderMapper orderMapper;
 
 	@Autowired
 	private DistanceService distanceService;
-	
+
 	/**
 	 * placeOrder
 	 * 
 	 * @param placeOrderQo
 	 * @return
 	 */
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public OrderVo placeOrder(PlaceOrderQo placeOrderQo) {
 		List<String> origin = placeOrderQo.getOrigin();
 		List<String> destination = placeOrderQo.getDestination();
 		Order order = new Order();
 		order.setId(UUID.randomUUID().toString());
-		// The controller layer has performed parameter validation, so the service layer does not repeat the validation.
-    	int distance = distanceService.getDistanceInMeters(
-                new BigDecimal(origin.get(0)), new BigDecimal(origin.get(1)),
-                new BigDecimal(destination.get(0)), new BigDecimal(destination.get(1))
-        );
-        order.setDistance(distance);
+		// The controller layer has performed parameter validation, so the service layer
+		// does not repeat the validation.
+		int distance = distanceService.getDistanceInMeters(new BigDecimal(origin.get(0)), new BigDecimal(origin.get(1)),
+				new BigDecimal(destination.get(0)), new BigDecimal(destination.get(1)));
+		order.setDistance(distance);
 		order.setStatus(OrderStatus.UNASSIGNED.getStatus());
 		order.setStartLatitude(origin.get(0));
 		order.setStartLongitude(origin.get(1));
@@ -71,8 +70,16 @@ public class OrderServiceImpl implements OrderService {
 	 * @param takeOrderQo
 	 * @return
 	 */
-	@Transactional
 	public synchronized TakeOrderVo takeOrder(TakeOrderQo takeOrderQo) {
+		checkOrderStatus(takeOrderQo);
+
+		setOrderTaken(takeOrderQo);
+
+		TakeOrderVo takeOrderVo = new TakeOrderVo(TakeOrderStatus.SUCCESS.getStatus());
+		return takeOrderVo;
+	}
+
+	private void checkOrderStatus(TakeOrderQo takeOrderQo) {
 		Order order = orderMapper.selectOrderById(takeOrderQo.getId());
 		if (order == null) {
 			throw new TakeOrderException(TakeOrderExceptionMsg.ORDER_NOT_FOUND.getMsg());
@@ -80,9 +87,11 @@ public class OrderServiceImpl implements OrderService {
 		if (OrderStatus.TAKEN.getStatus().equals(order.getStatus())) {
 			throw new TakeOrderException(TakeOrderExceptionMsg.ORDER_ALREADY_TAKEN.getMsg());
 		}
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	private void setOrderTaken(TakeOrderQo takeOrderQo) {
 		orderMapper.updateOrderStatus(takeOrderQo);
-		TakeOrderVo takeOrderVo = new TakeOrderVo(TakeOrderStatus.SUCCESS.getStatus());
-		return takeOrderVo;
 	}
 
 	/**

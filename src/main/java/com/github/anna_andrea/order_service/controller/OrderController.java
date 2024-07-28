@@ -57,6 +57,7 @@ public class OrderController {
 	 */
 	@PatchMapping("/{id}")
 	public ResponseEntity<?> takeOrder(@PathVariable("id") String id, @RequestBody @Valid TakeOrderQo takeOrderQo) {
+		takeOrderQo.setId(id);
 		TakeOrderVo takeOrderVo = orderService.takeOrder(takeOrderQo);
 		return new ResponseEntity<TakeOrderVo>(takeOrderVo, HttpStatus.OK);
 	}

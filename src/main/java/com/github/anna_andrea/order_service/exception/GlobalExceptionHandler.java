@@ -10,6 +10,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.github.anna_andrea.order_service.model.enums.TakeOrderExceptionMsg;
 import com.github.anna_andrea.order_service.model.vo.ErrorResponse;
 
 /**
@@ -54,7 +55,11 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(TakeOrderException.class)
 	public ResponseEntity<ErrorResponse> handleTakeOrderException(TakeOrderException ex) {
 		ErrorResponse errorResponse = new ErrorResponse("Take order Failed: " + ex.getMessage());
-		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+		if (TakeOrderExceptionMsg.ORDER_ALREADY_TAKEN.getMsg().equals(ex.getMessage())) {
+			return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+		} else {
+			return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+		}
 	}
 	
     @ExceptionHandler(DistanceServiceException.class)

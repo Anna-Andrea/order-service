@@ -35,6 +35,10 @@ import com.github.anna_andrea.order_service.model.vo.TakeOrderVo;
 import com.github.anna_andrea.order_service.service.impl.DistanceService;
 import com.github.anna_andrea.order_service.service.impl.OrderServiceImpl;
 
+/**
+ * @author Kevin
+ *
+ */
 public class OrderServiceTest {
 	@Mock
 	private OrderMapper orderMapper;

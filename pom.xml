@@ -33,6 +33,12 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
+    
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-logging</artifactId>
+	</dependency>
 
     <!-- Jackson for JSON processing -->
     <dependency>
@@ -81,6 +87,20 @@
       <artifactId>mockito-core</artifactId>
       <scope>test</scope>
     </dependency>
+    
+    <!-- Apache HttpClient -->
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+	</dependency>
+	
+	<!-- h2 database -->
+	<dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+	</dependency>
+	
   </dependencies>
 
   <build>

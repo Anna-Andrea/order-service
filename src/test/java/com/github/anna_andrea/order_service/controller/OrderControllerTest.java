@@ -32,7 +32,6 @@ import com.github.anna_andrea.order_service.model.vo.TakeOrderVo;
 import com.github.anna_andrea.order_service.service.OrderService;
 
 /**
- * Controller layer unit tests: 1. Parameter validation; 2. Service layer invocation.
  * @author Kevin
  *
  */
