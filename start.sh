@@ -29,7 +29,7 @@ sleep 30
 # Assuming you have a file named schema.sql in the same directory
 if [ -f "schema.sql" ]; then
   echo "Initializing the database..."
-  docker exec -i mysql-db mysql -u root -pLd274131511 orders_db < schema.sql
+  docker exec -i mysql-db mysql -u root -p$MYSQL_ROOT_PASSWORD orders_db < schema.sql
 else
   echo "DDL script schema.sql not found. Skipping database initialization."
 fi
