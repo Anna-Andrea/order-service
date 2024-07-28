@@ -1,6 +1,12 @@
 # Use Java 8 to Build the Image
 FROM maven:3.8.4-openjdk-8 AS build
 
+# Define build-time arguments
+ARG GOOGLE_MAPS_API_KEY
+
+# Set environment variables required for the build
+ENV GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
+
 # Set the Spring Profile to test for the build process (Integration Test)
 ENV SPRING_PROFILES_ACTIVE=test
 

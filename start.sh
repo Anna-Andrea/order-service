@@ -15,7 +15,7 @@ export GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY
 
 # 1. Build the Docker image for the Spring Boot application
 echo "Building the Docker image..."
-docker build -t $IMAGE_NAME .
+docker build --build-arg GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY -t $IMAGE_NAME .
 
 # 2. Start Docker Compose to create and run containers
 echo "Starting Docker containers..."
