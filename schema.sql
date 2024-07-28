@@ -1,0 +1,11 @@
+CREATE TABLE orders (
+    id VARCHAR(36) NOT NULL PRIMARY KEY, -- UUID 
+    distance INT NOT NULL, -- distance
+    status VARCHAR(20) NOT NULL, -- status
+    start_latitude DECIMAL(9, 6) NOT NULL, -- START_LATITUDE
+    start_longitude DECIMAL(9, 6) NOT NULL, -- START_LONGITUDE
+    end_latitude DECIMAL(9, 6) NOT NULL, -- END_LATITUDE
+    end_longitude DECIMAL(9, 6) NOT NULL, -- END_LONGITUDE
+    create_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+    update_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

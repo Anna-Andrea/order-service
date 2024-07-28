@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.anna_andrea.order_service.mapper.OrderMapper">
+	
+	<insert id="insertOrder" parameterType="com.github.anna_andrea.order_service.model.entity.Order">
+		INSERT INTO orders (id,distance,status,start_latitude,start_longitude,end_latitude,end_longitude)
+		VALUES (#{id},#{distance},#{status},#{startLatitude},#{startLongitude},#{endLatitude},#{endLongitude})
+	</insert>
+	
+	<select id="selectOrderById" parameterType="java.lang.String"
+	resultType = "com.github.anna_andrea.order_service.model.entity.Order">
+		SELECT
+			id AS id,
+    		status AS status
+    	FROM orders
+    	WHERE id=#{id}
+	</select>
+	
+	
+	<update id="updateOrderStatus" parameterType="com.github.anna_andrea.order_service.model.qo.TakeOrderQo">
+		UPDATE orders
+		SET status = #{status}
+		WHERE id = #{id}
+	</update>
+	
+	<select id ="queryOrderList" parameterType="com.github.anna_andrea.order_service.model.qo.OrderListQo" 
+	resultType = "com.github.anna_andrea.order_service.model.vo.OrderVo">
+		SELECT
+			id AS id,
+			distance AS distance,
+    		status AS status
+    	FROM orders
+    	ORDER BY create_date
+    	LIMIT #{offset}, #{limit}
+	</select>
+	
+</mapper>
