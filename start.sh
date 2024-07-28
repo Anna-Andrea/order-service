@@ -6,6 +6,12 @@ set -e
 # Variables
 IMAGE_NAME="order-service-image"
 DOCKER_COMPOSE_FILE="docker-compose.yml"
+MYSQL_ROOT_PASSWORD="Q7%xF@b9$2tH!kLm"
+GOOGLE_MAPS_API_KEY="AIzaSyAbqbMx0HfUf7jyGhlupIHRr9fSyS8Pskc"
+
+# Export the database password and API key as environment variables
+export DB_PASSWORD=$MYSQL_ROOT_PASSWORD
+export GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY
 
 # 1. Build the Docker image for the Spring Boot application
 echo "Building the Docker image..."

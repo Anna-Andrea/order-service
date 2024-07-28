@@ -19,7 +19,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.anna_andrea.order_service.exception.TakeOrderException;
 import com.github.anna_andrea.order_service.mapper.OrderMapper;
@@ -47,7 +46,6 @@ public class OrderServiceTest {
 	private DistanceService distanceService;
 
 	@InjectMocks
-	@Autowired
 	private OrderServiceImpl orderService;
 	
     @BeforeEach
