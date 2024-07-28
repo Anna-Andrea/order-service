@@ -7,6 +7,5 @@ A: In my application, the actual Google Maps API key is used to fetch actual dis
   - *Note:* Please run the following command (Assume Docker is already installed in the test machine.):  
     ```
     cd order-service
-    chmod +x start.sh
-    ./start.sh
+    bash start.sh
     ```
